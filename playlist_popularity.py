@@ -18,35 +18,7 @@ from prefect.tasks import task_input_hash
 from pathlib import Path
 
 
-
-# client_id = os.environ['SPOTIPY_CLIENT_ID']
-# client_secret = os.environ['SPOTIPY_CLIENT_SECRET']
-# BUCKET = os.environ["SPOTIFY_GCS_BUCKET"]
-
-
-
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth())
-
-# def upload_files_to_gcs(bucket_name, local_file_name, destination):
-#     """Uploads a local file to GCS bucket."""
-
-#     storage.blob._MAX_MULTIPART_SIZE = 5 * 1024 * 1024  # 5 MB
-#     storage.blob._DEFAULT_CHUNKSIZE = 5 * 1024 * 1024  # 5 MB
-
-#     storage_client = storage.Client()
-#     bucket = storage_client.bucket(bucket_name)
-#     blob = bucket.blob(destination)
-
-#     try:
-#         blob.upload_from_filename(local_file_name)
-
-#         print(
-#             f"File {local_file_name} uploaded to {destination}.\n"
-#         )
-#     except Exception as e:
-#         print(f'failed to upload bucket: {e}\n')
-
-
 
 
 def get_playlists_from_genre():
@@ -118,28 +90,6 @@ def get_playlist_and_track_dfs():
 
     return playlists_df, tracks_df
 
-# def df_to_csv_to_gcs(bucket):
-#     playlists_df, tracks_df = get_playlist_and_track_dfs()
-
-#     tracks_df.to_csv('playlist_tracks.csv')
-#     playlists_df.to_csv('playlists.csv')
-
-#     tracks = pd.read_csv('playlist_tracks.csv')
-#     playlists = pd.read_csv('playlists.csv')
-
-#     playlist_tracks_file = 'playlist_tracks.csv'.replace('.csv', '.parquet')
-#     playlists_file = 'playlists.csv'.replace('.csv', '.parquet')
-
-#     tracks.to_parquet(playlist_tracks_file, engine='pyarrow')
-
-#     playlists.to_parquet(playlists_file, engine='pyarrow')
-
-
-#     upload_files_to_gcs(bucket, playlist_tracks_file, f"data/{playlist_tracks_file}")
-#     upload_files_to_gcs(bucket, playlists_file, f"data/{playlists_file}")
-
-# if __name__ == '__main__':
-#     df_to_csv_to_gcs(BUCKET)
 
 @task(retries=3)
 def fetch() -> pd.DataFrame:
