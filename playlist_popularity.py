@@ -93,7 +93,6 @@ def get_playlist_and_track_dfs():
 
 @task(retries=3)
 def fetch() -> pd.DataFrame:
-    """Read taxi data from web into pandas df"""
     # if randint(0, 1) > 0:
     #     raise Exception
     playlists_df, tracks_df = get_playlist_and_track_dfs()
